@@ -1,101 +1,89 @@
 # automated-job-finder-n8n
 
-📌 Automated Job Finder – Email Alerts (n8n)
-🔍 Overview
+🚀 Automated Job Finder – Email Alerts (n8n)
 
-This project is an automation workflow built using n8n that continuously monitors multiple job boards via RSS feeds, filters relevant software engineering roles, scores job quality, and delivers curated job alerts via email.
+An end-to-end automation workflow built with n8n that aggregates software engineering job postings from multiple sources, filters them intelligently, scores job quality, and delivers curated job alerts via email.
 
-The goal of this project is to demonstrate real-world automation design, data aggregation, filtering logic, and workflow orchestration.
+This project demonstrates real-world automation design, not toy examples.
 
-⚙️ How It Works
+🔍 What This Project Does
 
-Schedule Trigger
+Fetches job postings from multiple RSS job sources
 
-Runs the workflow automatically at defined intervals.
+Merges and normalizes incoming data
 
-Multiple RSS Feeds
+Filters jobs based on:
 
-Pulls job listings from several high-volume job sources simultaneously.
+Software / engineering roles
 
-Merge Node
+Country or location criteria
 
-Aggregates all job feeds into a single unified stream.
+Applies custom job quality scoring using JavaScript
 
-Job Filtering
+Sends structured email alerts with relevant job links
 
-Filters roles based on keywords such as:
-
-Software Engineer
-
-Developer
-
-Backend / Frontend
-
-Applies optional country-based filtering.
-
-Job Scoring Logic
-
-Assigns a quality score to each job based on relevance.
-
-Quality Gate
-
-Ensures only high-quality, relevant jobs pass through.
-
-Email Automation
-
-Formats job listings into a structured email.
-
-Sends job alerts automatically.
+Designed to scale by simply adding more RSS feeds
 
 🧠 Why This Project Matters
 
 This workflow demonstrates:
 
-Practical automation design
+Practical automation design (not scripts)
 
-Event-driven workflows
+Data ingestion from multiple sources
 
-Data aggregation from multiple sources
+Conditional logic and branching
 
-Conditional logic and filtering
+Custom business logic using JavaScript nodes
 
-Real-world email alert systems
+Clean separation of concerns
 
-It mirrors how production automation systems are built for monitoring, alerting, and content delivery.
+Production-ready thinking using schedulers and filters
 
-🛠️ Tech Stack
+Built to show how automation replaces manual job searching.
 
-n8n – Workflow automation
+🧩 Workflow Architecture
+High-level Flow
+Schedule Trigger
+   ├─ RSS Feed 1
+   ├─ RSS Feed 2
+   ├─ RSS Feed 3
+        ↓
+      Merge
+        ↓
+ Filter: Software Jobs
+        ↓
+ Filter: Country
+        ↓
+ Job Scoring (Code)
+        ↓
+ Quality Filter
+        ↓
+ Email Content Builder
+        ↓
+ Send Email
 
-RSS Feeds – Data ingestion
+🛠 Tech Stack
 
-JavaScript (Code Nodes) – Custom logic & scoring
+n8n – workflow orchestration
 
-Email Integration – Automated notifications
+RSS – job data ingestion
 
-📊 Workflow Diagram
+JavaScript (Code nodes) – scoring & filtering logic
 
-or
+Email node – automated notifications
 
-flowchart LR
-    A[Schedule Trigger] --> B1[RSS Read 1]
-    A --> B2[RSS Read 2]
-    A --> B3[RSS Read 3]
+📦 Repository Contents
+.
+├── workflow-diagram.png      # Visual workflow overview
+├── workflow.json             # Exported n8n workflow
+└── README.md                 # Project documentation
 
-    B1 --> C[Merge Feeds]
-    B2 --> C
-    B3 --> C
+▶ How to Run This Workflow
 
-    C --> D[Filter: Software Jobs]
-    D --> E[Filter: Country]
-    E --> F[Job Scoring Logic]
-    F --> G[Quality Filter]
-    G --> H[Prepare Email Content]
-    H --> I[Send Email Alert]
+Install or open n8n
 
-🚀 Getting Started
-
-Import the workflow JSON into n8n
+Import the workflow.json file
 
 Configure:
 
@@ -105,14 +93,28 @@ Email credentials
 
 Activate the workflow
 
-Sit back and let automation do the work
+Let the scheduler run automatically
 
-📌 Use Case Examples
+🎯 Use Cases
 
-Job monitoring systems
+Automated job discovery
 
-Market intelligence automation
+Email alert systems
 
 Content aggregation pipelines
 
-Alerting & notification workflows
+Resume-ready automation projects
+
+📌 Notes
+
+This project is intentionally kept simple and extensible
+
+New RSS feeds or filters can be added without redesign
+
+Built as a portfolio-grade automation, not a demo
+
+👤 Author
+
+Nayil Ahmed Siddique
+AI / Automation Engineer
+(Project built to demonstrate real-world automation skills)
