@@ -51,6 +51,7 @@ Schedule Trigger
  Send Email
  
 🖼 Workflow Diagram
+
 ![Workflow Diagram](./WorkflowOverview.png)
 
 🛠 Tech Stack
