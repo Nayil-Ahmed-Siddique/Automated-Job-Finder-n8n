@@ -1,0 +1,434 @@
+{
+  "name": "Automated Job Finder – Email Alerts",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 11
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -384,
+        -192
+      ],
+      "id": "17fbc685-511c-46fa-b292-8ad7a7615159",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://weworkremotely.com/categories/remote-programming-jobs.rss",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        -144,
+        -192
+      ],
+      "id": "b1d57832-38d8-4e0e-a1a2-b496bf895db7",
+      "name": "RSS Read"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "94f97d48-0dea-4a21-9884-71033000433f",
+              "name": "title",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "92371484-c739-44d0-a6c0-7c0bbf214636",
+              "name": "link",
+              "value": "={{ $json.link }}",
+              "type": "string"
+            },
+            {
+              "id": "f8d232aa-781c-4f90-9044-8e99790a552a",
+              "name": "pubDate",
+              "value": "={{ $json.pubDate }}",
+              "type": "string"
+            },
+            {
+              "id": "83860238-fd58-4142-b465-5468bc574478",
+              "name": "contentSnippet",
+              "value": "={{ $json.contentSnippet }}",
+              "type": "string"
+            },
+            {
+              "id": "28878076-52ac-408a-80f7-7f4102300778",
+              "name": "jobScore",
+              "value": "={{ $json.jobScore }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1232,
+        -240
+      ],
+      "id": "cb4d5341-298f-487e-ac1b-be3e9dced4cf",
+      "name": "Edit Fields    (Preparing Email Content)"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "231567c6-5844-4e88-8082-33105ad35224",
+              "leftValue": "={{ $json.title.toLowerCase() }}",
+              "rightValue": "engineer",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "cbcf6c6b-4e74-4dcc-8b40-777c02310b59",
+              "leftValue": "={{ $json.title.toLowerCase() }}",
+              "rightValue": "developer",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "1270959b-7b65-4470-be1d-1e605ba05175",
+              "leftValue": "={{ $json.title.toLowerCase() }}",
+              "rightValue": "software",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        304,
+        -192
+      ],
+      "id": "1054e869-395e-4b79-8b92-f3a0dbc1b3d6",
+      "name": "If   (Filter – Software Jobs)"
+    },
+    {
+      "parameters": {
+        "fromEmail": "2ab19cs037@anjuman.edu.in",
+        "toEmail": "2ab19cs037@anjuman.edu.in",
+        "subject": "New Software Engineering Job Found",
+        "emailFormat": "text",
+        "text": "=Job Title: {{ $json.title }}\n\nJob Score: {{ $json.jobScore }}\n\nPublished On: {{ $json.pubDate }}\n\nJob Description:\n{{ $json.contentSnippet }}\n\nApply Here:\n{{ $json.link }}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1424,
+        -240
+      ],
+      "id": "3838c091-54fa-40f4-b432-6a4c6a82bb51",
+      "name": "Send email  (Send Job Alert Email)",
+      "webhookId": "cbbb5692-f0b8-435c-89fa-cd6186a08747",
+      "credentials": {
+        "smtp": {
+          "id": "ur9SXBRQ1WwFUlaU",
+          "name": "SMTP account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://remoteok.com/remote-dev-jobs.rss",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        -144,
+        -32
+      ],
+      "id": "05685462-8882-4485-b046-c4801bc3502b",
+      "name": "RSS Read1"
+    },
+    {
+      "parameters": {
+        "url": "https://weworkremotely.com/categories/remote-full-stack-programming-jobs.rss",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        -144,
+        -352
+      ],
+      "id": "e14b39c2-17e3-41ea-870e-a6beef0234a4",
+      "name": "RSS Read2"
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        96,
+        -208
+      ],
+      "id": "a64fec06-e23f-421b-940d-01a371a0a254",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "15f40a47-6edb-4033-88c2-844682ba0f87",
+              "leftValue": "={{ ($json.title + ' ' + $json.content).toLowerCase() }}",
+              "rightValue": "usa",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "e08c1b68-95a2-45e8-af3c-67183a271543",
+              "leftValue": "={{ ($json.title + ' ' + $json.content).toLowerCase() }}",
+              "rightValue": "united states",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "5b09d2c0-9a4f-4af8-8394-240ca9c2c6d8",
+              "leftValue": "={{ ($json.title + ' ' + $json.content).toLowerCase() }}",
+              "rightValue": "united states of america",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        544,
+        -208
+      ],
+      "id": "aad1537a-4db4-4d8e-b8a3-8065d30e64e9",
+      "name": "If  (Filter - Country)"
+    },
+    {
+      "parameters": {
+        "jsCode": "let score = 0;\n\nconst text = ($json.title + ' ' + $json.content).toLowerCase();\n\nif (text.includes('senior')) score += 2;\nif (text.includes('software')) score += 1;\nif (text.includes('engineer')) score += 1;\nif (text.includes('backend')) score += 1;\nif (text.includes('full stack')) score += 1;\n\nreturn [{\n  json: {\n    ...$json,\n    jobScore: score\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        784,
+        -224
+      ],
+      "id": "32f5eded-6d34-411b-bc7f-54c4569727f3",
+      "name": "Job Score"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "235f08de-342d-45dc-b977-e3f9782f85e9",
+              "leftValue": "={{ $json.jobScore }}",
+              "rightValue": 2,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        992,
+        -224
+      ],
+      "id": "639fbc5f-b25b-4f1d-bf20-1ae2c17f6f5d",
+      "name": "If (Quality jobs)"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "RSS Read",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Read1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Read2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "If   (Filter – Software Jobs)": {
+      "main": [
+        [
+          {
+            "node": "If  (Filter - Country)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields    (Preparing Email Content)": {
+      "main": [
+        [
+          {
+            "node": "Send email  (Send Job Alert Email)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "If   (Filter – Software Jobs)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read2": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If  (Filter - Country)": {
+      "main": [
+        [
+          {
+            "node": "Job Score",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Job Score": {
+      "main": [
+        [
+          {
+            "node": "If (Quality jobs)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If (Quality jobs)": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields    (Preparing Email Content)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "a546e0fe-792d-4924-b176-f5c30331d07a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "82010d2262361977f5bd71649a4506975356573a80a7fd776204a40256dcc141"
+  },
+  "id": "XRGGHvqpp0bVdgGD",
+  "tags": []
+}
