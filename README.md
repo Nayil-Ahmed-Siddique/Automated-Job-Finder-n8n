@@ -1,6 +1,6 @@
 # automated-job-finder-n8n
 
-![Workflow Diagram](./workflowOverview.png)
+![Workflow Diagram](./n8nWorkflowExecution.png)
 
 # 🚀 Automated Job Finder – Email Alerts (n8n)
 
@@ -108,6 +108,12 @@ Send Email
    - Email credentials
 4. Activate the workflow
 5. Let the scheduler run automatically
+
+---
+
+![Workflow Diagram](./n8nEmailAlert.png)
+
+![Workflow Diagram](./n8nEmail2.png)
 
 ---
 
